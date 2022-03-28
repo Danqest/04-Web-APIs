@@ -1,0 +1,53 @@
+/* define common variables like color */
+:root {
+  --primary: teal;
+  --secondary: orange;
+  --text-color: black;
+}
+
+/* universal definitions */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  color: var(--text-color);
+}
+
+body {
+  background-image: linear-gradient(135deg, var(--primary), var(--secondary));
+}
+
+header {
+  padding: 5%;
+  color: var(--text-color);
+}
+
+h1 {
+  display: inline-block;
+  font-size: 25px;
+}
+
+header ul {
+  padding-top: 1%;
+  margin-right: 3%;
+  float: right;
+  font-size: 20px;
+}
+
+header li {
+  display: inline-block;
+}
+
+.card-wrapper {
+  padding: 3%;
+  align-content: center;
+  text-align: center;
+}
+
+.card-body ul {
+  list-style-type: none;
+}
+
+.card-footer {
+  margin-top: 2%;
+}
