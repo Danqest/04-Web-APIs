@@ -28,14 +28,11 @@ h1 {
 }
 
 header ul {
-  padding-top: 1%;
+  /* padding-top: 1%; */
   margin-right: 3%;
   float: right;
   font-size: 20px;
-}
-
-header li {
-  display: inline-block;
+  list-style-type: none;
 }
 
 .card-wrapper {
@@ -50,4 +47,8 @@ header li {
 
 .card-footer {
   margin-top: 2%;
+}
+
+.footer-body {
+  list-style-type: none;
 }

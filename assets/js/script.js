@@ -3,7 +3,9 @@ var timerEl = document.querySelector('.timer')
 var scoreEl = document.querySelector('.score')
 var cardHeadEl = document.querySelector('.card-header')
 var cardBodyEl = document.querySelector('.card-body')
+var cardFootEl = document.querySelector('.card-footer')
 var answerBoxEl = document.querySelector('.answer-boxes')
+var footerUl = document.querySelector(".footer-body")
 
 var secondsLeft = 60
 var score = 0
@@ -23,6 +25,7 @@ function init() {
     resetScore()
     resetCard()
     resetQuestions()
+    resetFooter()
     shuffleArray(cardIndex)
     drawCard()
 }
@@ -112,12 +115,45 @@ function drawCard() {
     }
     else {
         secondsLeft = 0
-        endGame()
     }
 }
 
+function resetFooter() {
+    beginBtn.remove()
+    var endbtnList = document.querySelectorAll('.end-btn')
+    if(endbtnList.length > 0) {
+        footerUl.lastChild.remove() 
+    }
+}
+
+    
+
+
 function endGame() {
+
     cardHeadEl.textContent = "GAME OVER"
+    var footerEl = document.createElement('li')
+
+    var endbtn0 = document.createElement('button')
+    endbtn0.className = 'end-btn'
+    endbtn0.innerText = "RESTART GAME"
+    endbtn0.addEventListener('click', init)
+    footerEl.append(endbtn0)
+    
+    var endbtn1 = document.createElement('button')
+    endbtn1.className = 'end-btn'
+    endbtn1.innerText = "RECORD SCORE"
+    endbtn1.addEventListener('click', function(){
+        const link = document.createElement('a');
+        link.href = './assets/html/scoreboard.html';
+        link.target = '_blank';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+    })
+    footerEl.append(endbtn1)
+    footerUl.appendChild(footerEl)
+
 }
 
 
