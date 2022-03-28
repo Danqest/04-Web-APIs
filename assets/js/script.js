@@ -22,12 +22,12 @@ function init() {
     resetTimer()
     resetScore()
     resetCard()
+    resetQuestions()
     shuffleArray(cardIndex)
     drawCard()
 }
 
 function resetTimer() {
-    clearInterval(timerInterval)
     secondsLeft = 60
     var timerInterval = setInterval(function() {
         secondsLeft--;
@@ -35,7 +35,9 @@ function resetTimer() {
 
         if(secondsLeft <= 0) {
             clearInterval(timerInterval)
-            timerEl.textContent = "GAME OVER"
+            timerEl.textContent = ""
+            removeBtn()
+            endGame()
         }
     }, 100)
 }
@@ -49,6 +51,14 @@ function resetCard() {
     answerBoxEl.textContent = ""
 }
 
+function resetQuestions() {
+    cardIndex = [
+        ["This is a test question", ["test answer 1", "test answer 2", "test answer 3", "test answer 4"], "test answer 1"],
+        ["This is another test question", ["test answer 5", "test answer 6", "test answer 7", "test answer 8"], "test answer 5"],
+        ["This is a 3rd test question", ["test answer 9", "test answer 10", "test answer 11", "test answer 12"], "test answer 9"],
+    ]
+}
+
 function shuffleArray(arg1) {
     // Fisher-Yates shuffle algorithm for an array, taken from google search "javascript shuffle array"
     for(let i = arg1.length-1; i > 0; i--) {
@@ -59,40 +69,57 @@ function shuffleArray(arg1) {
   }
 }
 
+function removeBtn() {
+    var btnList = document.getElementById('answer-id')
+    while (btnList.firstChild) {
+        btnList.removeChild(btnList.lastChild)
+    }
+}
+
 function drawCard() {
-    cardQuestion = cardIndex[0][0]
-    cardPossibleAnswers = cardIndex[0][1]
-    cardAnswer = cardIndex[0][2]
-    shuffleArray(cardPossibleAnswers)
-    cardHeadEl.textContent = cardQuestion
+    if (cardIndex != 0) {
+        cardQuestion = cardIndex[0][0]
+        cardPossibleAnswers = cardIndex[0][1]
+        cardAnswer = cardIndex[0][2]
+        shuffleArray(cardPossibleAnswers)
+        cardHeadEl.textContent = cardQuestion
     
-    for(let i = 0; i < cardPossibleAnswers.length; i++) {
-        window['answerBtn'+i] = document.createElement('button') 
-        window['answerBtn'+i].innerText = cardPossibleAnswers[i]
-        window['answerBtn'+i].addEventListener('click', function() {
-            if(eval('answerBtn'+i).innerText == cardAnswer) {
-                console.log("YEET")
-                score += 5
-                scoreEl.textContent = ("Score: " + score)
-            }
-            else {
-                secondsLeft -= 5
-                if(score > 0) {
-                    score -= 5
+        for(let i = 0; i < cardPossibleAnswers.length; i++) {
+            window['answerBtn'+i] = document.createElement('button') 
+            window['answerBtn'+i].id = 'answer-btn'
+            window['answerBtn'+i].innerText = cardPossibleAnswers[i]
+            window['answerBtn'+i].addEventListener('click', function() {
+                if(eval('answerBtn'+i).innerText === cardAnswer) {
+                    score += 5
                     scoreEl.textContent = ("Score: " + score)
                 }
+                else {
+                    secondsLeft -= 5
+                    if(score > 0) {
+                        score -= 5
+                        scoreEl.textContent = ("Score: " + score)
+                    }
+                }
+                cardIndex = cardIndex.slice(1)
+                removeBtn()
+                drawCard()
             }
-        }
-        )
-        var answerEl = document.createElement('li')
-        answerEl.appendChild(window['answerBtn'+i])
-        answerBoxEl.appendChild(answerEl)
-    } 
+            )
+            var answerEl = document.createElement('li')
+            answerEl.appendChild(window['answerBtn'+i])
+            answerBoxEl.appendChild(answerEl)
+        } 
+    }
+    else {
+        secondsLeft = 0
+        endGame()
+    }
 }
 
-function checkIfRight() {
-
+function endGame() {
+    cardHeadEl.textContent = "GAME OVER"
 }
+
 
 beginBtn.addEventListener("click", init)
 
