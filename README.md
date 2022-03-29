@@ -6,4 +6,4 @@ The project involves the creation of a webpage in html, beautifying it in css, a
 
 A link to the deployed application can be located at: https://danqest.github.io/04-Web-APIs/
 
-![web-apis](https://https://github.com/Danqest/04-Web-APIs/blob/main/assets/images/web-apis.png)
+![web-apis](https://github.com/Danqest/04-Web-APIs/blob/main/assets/images/web-apis.png)
