@@ -6,19 +6,15 @@ var cardBodyEl = document.querySelector('.card-body')
 var cardFootEl = document.querySelector('.card-footer')
 var answerBoxEl = document.querySelector('.answer-boxes')
 var footerUl = document.querySelector(".footer-body")
+var scoreboard = document.querySelector('#view-scoreboard')
 
 var secondsLeft = 60
 var score = 0
 var cardIndex = []
 var cardQuestion = ""
 var cardAnswers = []
-var highScoreIndex = []
+var playerScores = {}
 
-cardIndex = [
-    ["This is a test question", ["test answer 1", "test answer 2", "test answer 3", "test answer 4"], "test answer 1"],
-    ["This is another test question", ["test answer 5", "test answer 6", "test answer 7", "test answer 8"], "test answer 5"],
-    ["This is a 3rd test question", ["test answer 9", "test answer 10", "test answer 11", "test answer 12"], "test answer 9"],
-]
 
 function init() {
     resetTimer()
@@ -42,7 +38,7 @@ function resetTimer() {
             removeBtn()
             endGame()
         }
-    }, 100)
+    }, 1000)
 }
 
 function resetScore() {
@@ -56,9 +52,21 @@ function resetCard() {
 
 function resetQuestions() {
     cardIndex = [
-        ["This is a test question", ["test answer 1", "test answer 2", "test answer 3", "test answer 4"], "test answer 1"],
-        ["This is another test question", ["test answer 5", "test answer 6", "test answer 7", "test answer 8"], "test answer 5"],
-        ["This is a 3rd test question", ["test answer 9", "test answer 10", "test answer 11", "test answer 12"], "test answer 9"],
+        ["Interest rate risk is measured by ___", ["duration", "convexity", "I-spread", "loss given default (LGD)"], "duration"],
+        ["An economic balance sheet for an individual includes ___", ["extended portfolio assets & liabilities", "measures of GDP", "business assets & liabilities", "wishful thinking"], "extended portfolio assets & liabilities"],
+        ["When interest rates go up, bond prices ___", ["go down", "go up", "do nothing", "vary randomly"], "go down"],
+        ["Money printer goes ___", ["brrrrrrr", "ouch", "to China", "to collect"], "brrrrrrr"],
+        ["A dollar tomorrow is worth ___ a dollar today", ["less than", "more than", "the same as", "a random value relative to"], "less than"],
+        ["An individual's largest asset is typically their ___", ["home", "car", "education", "time to live"], "home"],
+        ["Nothing is certain except ___", ["death & taxes", "chips & dip", "day & night", "chicken tendies"], "death & taxes"],
+        ["Full replication of bond indicies is not done due to ___", ["cost & liquidity", "effort", "not enough issuers", "legality"], "cost & liquidity"],
+        ["Hedge fund fee structure is usually ___", ["2/20", "4/40", "6/60", "8/80"], "2/20"],
+        ["Derivatives are usually used for ___", ["hedging", "speculating", "market manipulation", "algorithmic trading"], "hedging"],
+        ["Active managers are usually compared to a ___", ["market index", "better manager", "Fed funds rate", "hedge fund"], "market index"],
+        ["When you are young, most of your portfolio should be in ___", ["equities", "bonds", "derivatives", "private equity"], "equities"],
+        ["When you are old, most of your portfolio should be in ___", ["equities", "bonds", "derivatives", "private equity"], "bonds"],
+        ["A covered call strategy involves owning shares and ___", ["writing call options", "buying call options", "writing put options", "buying put options"], "writing call options"],
+        ["Target date funds are useful because they are ___", ["set-and-forget", "older financial instruments", "lucrative for managers", "actively managed"], "set-and-forget"],
     ]
 }
 
@@ -93,13 +101,14 @@ function drawCard() {
             window['answerBtn'+i].innerText = cardPossibleAnswers[i]
             window['answerBtn'+i].addEventListener('click', function() {
                 if(eval('answerBtn'+i).innerText === cardAnswer) {
+                    window.alert("RIGHT! Gained 5 points")
                     score += 5
                     scoreEl.textContent = ("Score: " + score)
                 }
                 else {
+                    window.alert("WRONG! Lost 5 seconds")
                     secondsLeft -= 5
                     if(score > 0) {
-                        score -= 5
                         scoreEl.textContent = ("Score: " + score)
                     }
                 }
@@ -126,8 +135,6 @@ function resetFooter() {
     }
 }
 
-    
-
 
 function endGame() {
 
@@ -143,19 +150,32 @@ function endGame() {
     var endbtn1 = document.createElement('button')
     endbtn1.className = 'end-btn'
     endbtn1.innerText = "RECORD SCORE"
-    endbtn1.addEventListener('click', function(){
-        const link = document.createElement('a');
-        link.href = './assets/html/scoreboard.html';
-        link.target = '_blank';
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-    })
+    endbtn1.addEventListener('click', openForm
+    )
     footerEl.append(endbtn1)
     footerUl.appendChild(footerEl)
 
 }
 
+function renderScores() {
+    var storedScores = JSON.parse(localStorage.getItem('playerScores'))
+
+    if (storedScores != null) {
+        window.alert('High Score Table \n' + JSON.stringify(storedScores))
+    }
+    else {
+        window.alert('No scores recorded!')
+    }
+}
+
+function openForm() {
+    var prompt1 = window.prompt("Please enter your player name to save to the highscore table!\nYour score this round was " + score)
+    var player = prompt1
+    playerScores[player] = score
+
+    localStorage.setItem('playerScores', JSON.stringify(playerScores))
+    renderScores()
+}
 
 beginBtn.addEventListener("click", init)
 
