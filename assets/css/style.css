@@ -12,7 +12,7 @@
   margin: 0;
   color: var(--text-color);
 }
-
+/* defines background display */
 body {
   background-image: linear-gradient(135deg, var(--primary), var(--secondary));
 }
@@ -37,7 +37,7 @@ header ul {
   font-size: 20px;
   list-style-type: none;
 }
-
+/* align card content into center */
 .card-wrapper {
   padding: 3%;
   align-content: center;

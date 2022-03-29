@@ -15,7 +15,7 @@ var cardQuestion = ""
 var cardAnswers = []
 var playerScores = {}
 
-
+// initialize game flow via init()
 function init() {
     resetTimer()
     resetScore()
@@ -26,6 +26,7 @@ function init() {
     drawCard()
 }
 
+// resets timer to 60s, ends game at 0s
 function resetTimer() {
     secondsLeft = 60
     var timerInterval = setInterval(function() {
@@ -40,16 +41,16 @@ function resetTimer() {
         }
     }, 1000)
 }
-
+// resets score to 0 in beginning
 function resetScore() {
     score = 0
     scoreEl.textContent = ("Score: " + score)
 }
-
+// resets card text to remove text
 function resetCard() {
     answerBoxEl.textContent = ""
 }
-
+// establishes array containing questions, possible answers, and correct answers
 function resetQuestions() {
     cardIndex = [
         ["Interest rate risk is measured by ___", ["duration", "convexity", "I-spread", "loss given default (LGD)"], "duration"],
@@ -69,7 +70,7 @@ function resetQuestions() {
         ["Target date funds are useful because they are ___", ["set-and-forget", "older financial instruments", "lucrative for managers", "actively managed"], "set-and-forget"],
     ]
 }
-
+// shuffles an input array
 function shuffleArray(arg1) {
     // Fisher-Yates shuffle algorithm for an array, taken from google search "javascript shuffle array"
     for(let i = arg1.length-1; i > 0; i--) {
@@ -79,14 +80,15 @@ function shuffleArray(arg1) {
         arg1[j] = temp
   }
 }
-
+// removes button
 function removeBtn() {
     var btnList = document.getElementById('answer-id')
     while (btnList.firstChild) {
         btnList.removeChild(btnList.lastChild)
     }
 }
-
+// draws shuffled card if any available, presents question and answers, verifies right/wrong answer and associated rewards, draws next card.
+// if no cards are left the game ends
 function drawCard() {
     if (cardIndex != 0) {
         cardQuestion = cardIndex[0][0]
@@ -126,7 +128,7 @@ function drawCard() {
         secondsLeft = 0
     }
 }
-
+// removes buttons on game reset
 function resetFooter() {
     beginBtn.remove()
     var endbtnList = document.querySelectorAll('.end-btn')
@@ -135,7 +137,7 @@ function resetFooter() {
     }
 }
 
-
+// at end of game, displays buttons to restart game or input your player name into storage along with your score
 function endGame() {
 
     cardHeadEl.textContent = "GAME OVER"
@@ -156,7 +158,7 @@ function endGame() {
     footerUl.appendChild(footerEl)
 
 }
-
+// renders scores
 function renderScores() {
     var storedScores = JSON.parse(localStorage.getItem('playerScores'))
 
@@ -167,7 +169,7 @@ function renderScores() {
         window.alert('No scores recorded!')
     }
 }
-
+// function to input player name and save
 function openForm() {
     var prompt1 = window.prompt("Please enter your player name to save to the highscore table!\nYour score this round was " + score)
     var player = prompt1
@@ -177,5 +179,6 @@ function openForm() {
     renderScores()
 }
 
+// code to begin the game upon clicking Start
 beginBtn.addEventListener("click", init)
 
